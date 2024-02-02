@@ -1,15 +1,23 @@
 export type XO = "X" | "O" | "-";
 
 export class Game {
+  cells: XO[] = ["-", "-", "-", "-", "-", "-", "-", "-", "-"];
+  turn: XO = "X";
+
   getCells(): XO[] {
-    return ["X", "-", "-", "-", "-", "-", "-", "-", "-"];
+    return this.cells;
   }
 
   getTurn(): XO {
-    return "X";
+    return this.turn;
   }
 
   getWinner(): XO {
+    const cells = this.getCells();
+    if (cells[0] === cells[1] && cells[1] === cells[2]) {
+      return cells[0];
+    }
+
     return "-";
   }
 
@@ -18,7 +26,16 @@ export class Game {
   }
 
   onClick(i: number): void {
-    console.log(`cell ${i} clicked`);
+    if (this.getCells()[i] === "-") {
+      this.cells[i] = this.turn;
+      this.turn = this.getTurn() === "X" ? "O" : "X";
+    }
+
+    // if (this.getTurn() === "X") {
+    //   this.turn = "O";
+    // } else {
+    //   this.turn = "X";
+    // }
   }
 
   restart(): void {
